@@ -1,0 +1,26 @@
+public class dynamicController
+{
+    @AuraEnabled
+    public static list<dynamicWrapper> listValues(string objectInfo){
+ 
+        list<dynamicWrapper> oListViewWrapper = new list<dynamicWrapper>();
+ 
+        for(ListView lv : [SELECT id, Name, DeveloperName FROM ListView
+                           WHERE sObjectType = : objectInfo ORDER By Name ASC]){ 
+            dynamicWrapper oWrapper = new dynamicWrapper();
+            oWrapper.label = lv.Name;
+            oWrapper.developerName = lv.DeveloperName;
+            oListViewWrapper.add(oWrapper);
+        }
+        
+        return oListViewWrapper; 
+    } 
+  public class dynamicWrapper
+  {
+      @AuraEnabled
+      public String label{get;set;}
+      
+      @AuraEnabled 
+      public string developerName{get;set;}  //developer name is a property and get and set are accessors
+  }
+}
